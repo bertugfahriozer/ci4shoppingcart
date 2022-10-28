@@ -63,7 +63,7 @@ the `$cart=new Cart()` class:
 
 <div class="highlight">
 
-<pre style="position: relative;">
+```PHP
 use \ci4shoppingCart\Libraries\Cart;
 
 public $cart
@@ -71,7 +71,7 @@ public $cart
 public function __contruct(){
   $cart=new Cart();
 }
-</pre>
+```
 
 </div>
 
@@ -83,8 +83,9 @@ Once loaded, the Cart object will be available using:
 
 <div class="highlight">
 
-<pre style="position: relative;">$this->cart
-</pre>
+```PHP
+$this->cart
+```
 
 </div>
 
@@ -112,7 +113,8 @@ the `$this->cart->insert()` method, as shown below:
 
 <div class="highlight">
 
-<pre style="position: relative;">$data = array(
+```PHP
+$data = array(
         'id'      => 'sku_123ABC',
         'qty'     => 1,
         'price'   => 39.95,
@@ -121,7 +123,7 @@ the `$this->cart->insert()` method, as shown below:
 );
 
 $this->cart->insert($data);
-</pre>
+```
 
 </div>
 
@@ -156,7 +158,8 @@ best to standardize your data among all your products in order to make displayin
 
 <div class="highlight">
 
-<pre style="position: relative;">$data = array(
+```PHP
+$data = array(
         'id'      => 'sku_123ABC',
         'qty'     => 1,
         'price'   => 39.95,
@@ -165,7 +168,7 @@ best to standardize your data among all your products in order to make displayin
 );
 
 $this->cart->insert($data);
-</pre>
+```
 
 </div>
 
@@ -186,7 +189,8 @@ This is useful in cases where you wish to allow people to select from among seve
 
 <div class="highlight">
 
-<pre style="position: relative;">$data = array(
+```PHP
+$data = array(
         array(
                 'id'      => 'sku_123ABC',
                 'qty'     => 1,
@@ -209,7 +213,7 @@ This is useful in cases where you wish to allow people to select from among seve
 );
 
 $this->cart->insert($data);
-</pre>
+```
 
 </div>
 
@@ -305,7 +309,8 @@ If the quantity is set to zero, the item will be removed from the cart.
 
 <div class="highlight">
 
-<pre style="position: relative;">$data = array(
+```PHP
+$data = array(
         'rowid' => 'b99ccdf16028f015540f341130b6d8ec',
         'qty'   => 3
 );
@@ -330,7 +335,7 @@ $data = array(
 );
 
 $this->cart->update($data);
-</pre>
+```
 
 </div>
 
@@ -343,7 +348,8 @@ custom fields.
 
 <div class="highlight">
 
-<pre style="position: relative;">$data = array(
+```PHP
+$data = array(
         'rowid'  => 'b99ccdf16028f015540f341130b6d8ec',
         'qty'    => 1,
         'price'  => 49.95,
@@ -351,7 +357,7 @@ custom fields.
 );
 
 $this->cart->update($data);
-</pre>
+```
 
 </div>
 
