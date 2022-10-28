@@ -69,7 +69,7 @@ use ci4shoppingcart\Libraries\Cart;
 public $cart
 
 public function __contruct(){
-  $cart=new Cart();
+  $this->cart=new Cart();
 }
 ```
 
