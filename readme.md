@@ -16,7 +16,7 @@ items from the cart.
 
 <div class="admonition important">
 
-Important
+##### Important
 
 The Cart library is DEPRECATED and should not be used. It is currently only kept for backwards compatibility.
 
@@ -52,18 +52,25 @@ Important
 
 The Cart class utilizes CodeIgniter’s Session Class to save the cart information to a database, so before using the Cart
 class you must set up a database table as indicated in the Session Documentation, and set the session preferences in
-your app/config/config.php file to utilize a database.
+your .env file to utilize a database.
 
 </div>
 
 To initialize the Shopping Cart Class in your controller constructor, use
-the `<span class="pre">$this->load->library()</span>` method:
+the `$cart=new Cart()` class:
 
 <div class="highlight-ci">
 
 <div class="highlight">
 
-<pre style="position: relative;"><span></span><span class="nv">$this</span><span class="o">-></span><span class="na">load</span><span class="o">-></span><span class="na">library</span><span class="p">(</span><span class="s1">'cart'</span><span class="p">);</span>
+<pre style="position: relative;">
+use \ci4shoppingCart\Libraries\Cart;
+
+public $cart
+
+public function __contruct(){
+  $cart=new Cart();
+}
 </pre>
 
 </div>
@@ -76,7 +83,7 @@ Once loaded, the Cart object will be available using:
 
 <div class="highlight">
 
-<pre style="position: relative;"><span></span><span class="nv">$this</span><span class="o">-></span><span class="na">cart</span>
+<pre style="position: relative;">$this->cart
 </pre>
 
 </div>
@@ -99,21 +106,21 @@ your application, you do not need to load the Session class.
 ### [Adding an Item to The Cart](#toc-entry-3)[¶](#adding-an-item-to-the-cart "Permalink to this headline")
 
 To add an item to the shopping cart, simply pass an array with the product information to
-the `<span class="pre">$this->cart->insert()</span>` method, as shown below:
+the `$this->cart->insert()` method, as shown below:
 
 <div class="highlight-ci">
 
 <div class="highlight">
 
-<pre style="position: relative;"><span></span><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-        <span class="s1">'id'</span>      <span class="o">=></span> <span class="s1">'sku_123ABC'</span><span class="p">,</span>
-        <span class="s1">'qty'</span>     <span class="o">=></span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">'price'</span>   <span class="o">=></span> <span class="mf">39.95</span><span class="p">,</span>
-        <span class="s1">'name'</span>    <span class="o">=></span> <span class="s1">'T-Shirt'</span><span class="p">,</span>
-        <span class="s1">'options'</span> <span class="o">=></span> <span class="k">array</span><span class="p">(</span><span class="s1">'Size'</span> <span class="o">=></span> <span class="s1">'L'</span><span class="p">,</span> <span class="s1">'Color'</span> <span class="o">=></span> <span class="s1">'Red'</span><span class="p">)</span>
-<span class="p">);</span>
+<pre style="position: relative;">$data = array(
+        'id'      => 'sku_123ABC',
+        'qty'     => 1,
+        'price'   => <span class="mf">39.95,
+        'name'    => 'T-Shirt',
+        'options' => array('Size' => 'L', 'Color' => 'Red')
+);
 
-<span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">insert</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+$this->cart->insert($data);
 </pre>
 
 </div>
@@ -149,22 +156,22 @@ best to standardize your data among all your products in order to make displayin
 
 <div class="highlight">
 
-<pre style="position: relative;"><span></span><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-        <span class="s1">'id'</span>      <span class="o">=></span> <span class="s1">'sku_123ABC'</span><span class="p">,</span>
-        <span class="s1">'qty'</span>     <span class="o">=></span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">'price'</span>   <span class="o">=></span> <span class="mf">39.95</span><span class="p">,</span>
-        <span class="s1">'name'</span>    <span class="o">=></span> <span class="s1">'T-Shirt'</span><span class="p">,</span>
-        <span class="s1">'coupon'</span>         <span class="o">=></span> <span class="s1">'XMAS-50OFF'</span>
-<span class="p">);</span>
+<pre style="position: relative;">$data = array(
+        'id'      => 'sku_123ABC',
+        'qty'     => 1,
+        'price'   => <span class="mf">39.95,
+        'name'    => 'T-Shirt',
+        'coupon'         => 'XMAS-50OFF'
+);
 
-<span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">insert</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+$this->cart->insert($data);
 </pre>
 
 </div>
 
 </div>
 
-The `<span class="pre">insert()</span>` method will return the $rowid if you successfully insert a single item.
+The `<span class="pre">insert()` method will return the $rowid if you successfully insert a single item.
 
 </div>
 
@@ -179,29 +186,29 @@ This is useful in cases where you wish to allow people to select from among seve
 
 <div class="highlight">
 
-<pre style="position: relative;"><span></span><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-        <span class="k">array</span><span class="p">(</span>
-                <span class="s1">'id'</span>      <span class="o">=></span> <span class="s1">'sku_123ABC'</span><span class="p">,</span>
-                <span class="s1">'qty'</span>     <span class="o">=></span> <span class="mi">1</span><span class="p">,</span>
-                <span class="s1">'price'</span>   <span class="o">=></span> <span class="mf">39.95</span><span class="p">,</span>
-                <span class="s1">'name'</span>    <span class="o">=></span> <span class="s1">'T-Shirt'</span><span class="p">,</span>
-                <span class="s1">'options'</span> <span class="o">=></span> <span class="k">array</span><span class="p">(</span><span class="s1">'Size'</span> <span class="o">=></span> <span class="s1">'L'</span><span class="p">,</span> <span class="s1">'Color'</span> <span class="o">=></span> <span class="s1">'Red'</span><span class="p">)</span>
-        <span class="p">),</span>
-        <span class="k">array</span><span class="p">(</span>
-                <span class="s1">'id'</span>      <span class="o">=></span> <span class="s1">'sku_567ZYX'</span><span class="p">,</span>
-                <span class="s1">'qty'</span>     <span class="o">=></span> <span class="mi">1</span><span class="p">,</span>
-                <span class="s1">'price'</span>   <span class="o">=></span> <span class="mf">9.95</span><span class="p">,</span>
-                <span class="s1">'name'</span>    <span class="o">=></span> <span class="s1">'Coffee Mug'</span>
-        <span class="p">),</span>
-        <span class="k">array</span><span class="p">(</span>
-                <span class="s1">'id'</span>      <span class="o">=></span> <span class="s1">'sku_965QRS'</span><span class="p">,</span>
-                <span class="s1">'qty'</span>     <span class="o">=></span> <span class="mi">1</span><span class="p">,</span>
-                <span class="s1">'price'</span>   <span class="o">=></span> <span class="mf">29.95</span><span class="p">,</span>
-                <span class="s1">'name'</span>    <span class="o">=></span> <span class="s1">'Shot Glass'</span>
-        <span class="p">)</span>
-<span class="p">);</span>
+<pre style="position: relative;">$data = array(
+        array(
+                'id'      => 'sku_123ABC',
+                'qty'     => 1,
+                'price'   => <span class="mf">39.95,
+                'name'    => 'T-Shirt',
+                'options' => array('Size' => 'L', 'Color' => 'Red')
+        ),
+        array(
+                'id'      => 'sku_567ZYX',
+                'qty'     => 1,
+                'price'   => <span class="mf">9.95,
+                'name'    => 'Coffee Mug'
+        ),
+        array(
+                'id'      => 'sku_965QRS',
+                'qty'     => 1,
+                'price'   => <span class="mf">29.95,
+                'name'    => 'Shot Glass'
+        )
+);
 
-<span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">insert</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+$this->cart->insert($data);
 </pre>
 
 </div>
@@ -214,67 +221,76 @@ This is useful in cases where you wish to allow people to select from among seve
 
 ### [Displaying the Cart](#toc-entry-5)[¶](#displaying-the-cart "Permalink to this headline")
 
-To display the cart you will create a [<span class="doc">view file</span>](../general/views.html) with code similar to
+To display the cart you will create a view file with code similar to
 the one shown below.
 
-Please note that this example uses the [<span class="doc">form helper</span>](../helpers/form_helper.html).
+Please note that this example uses the form helper.
 
 <div class="highlight-ci">
 
 <div class="highlight">
 
-<pre style="position: relative;"><span></span><span class="o"><?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nx">form_open</span><span class="p">(</span><span class="s1">'path/to/controller/update/method'</span><span class="p">);</span> <span class="cp">?></span>
+<pre style="position: relative;">
+```PHP
+<?php
+/*add your controller */
+  public function yourMethod(){
+    return view('path/view',['cart'=>$this->cart]);
+  }
+</pre>
 
-<span class="p"><</span><span class="nt">table</span> <span class="na">cellpadding</span><span class="o">=</span><span class="s">"6"</span> <span class="na">cellspacing</span><span class="o">=</span><span class="s">"1"</span> <span class="na">style</span><span class="o">=</span><span class="s">"width:100%"</span> <span class="na">border</span><span class="o">=</span><span class="s">"0"</span><span class="p">></span>
+<pre>
+/*view*/
+<form action="```PHP
+<?php route_to('yourRoute')" method="post">
 
-<span class="p"><</span><span class="nt">tr</span><span class="p">></span>
-        <span class="p"><</span><span class="nt">th</span><span class="p">></span>QTY<span class="p"></</span><span class="nt">th</span><span class="p">></span>
-        <span class="p"><</span><span class="nt">th</span><span class="p">></span>Item Description<span class="p"></</span><span class="nt">th</span><span class="p">></span>
-        <span class="p"><</span><span class="nt">th</span> <span class="na">style</span><span class="o">=</span><span class="s">"text-align:right"</span><span class="p">></span>Item Price<span class="p"></</span><span class="nt">th</span><span class="p">></span>
-        <span class="p"><</span><span class="nt">th</span> <span class="na">style</span><span class="o">=</span><span class="s">"text-align:right"</span><span class="p">></span>Sub-Total<span class="p"></</span><span class="nt">th</span><span class="p">></span>
-<span class="p"></</span><span class="nt">tr</span><span class="p">></span>
+<table cellpadding="6" cellspacing="1" style="width:100%" border="0">
 
-<span class="cp"><?php</span> <span class="nv">$i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="cp">?></span>
+<tr>
+        <th>QTY</th>
+        <th>Item Description</th>
+        <th style="text-align:right">Item Price</th>
+        <th style="text-align:right">Sub-Total</th>
+</tr>
+```PHP
+<?php foreach ($cart->contents() as $items): ?>
+```PHP
+        <?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
 
-<span class="cp"><?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">contents</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$items</span><span class="p">)</span><span class="o">:</span> <span class="cp">?></span>
+        <tr>
+                <td><input type="number" value="<?php $items['qty'] ?>"></td>
+                <td>
+```PHP
+                        <?php echo $items['name']; ?>
+```PHP
+                        <?php if ($cart->has_options($items['rowid']) == TRUE): ?>
 
-        <span class="cp"><?php</span> <span class="k">echo</span> <span class="nx">form_hidden</span><span class="p">(</span><span class="nv">$i</span><span class="o">.</span><span class="s1">'[rowid]'</span><span class="p">,</span> <span class="nv">$items</span><span class="p">[</span><span class="s1">'rowid'</span><span class="p">]);</span> <span class="cp">?></span>
+                                <p>
+```PHP
+                                        <?php foreach ($cart->product_options($items['rowid']) as $option_name => $option_value): ?>
 
-        <span class="p"><</span><span class="nt">tr</span><span class="p">></span>
-                <span class="p"><</span><span class="nt">td</span><span class="p">></span><span class="cp"><?php</span> <span class="k">echo</span> <span class="nx">form_input</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'name'</span> <span class="o">=></span> <span class="nv">$i</span><span class="o">.</span><span class="s1">'[qty]'</span><span class="p">,</span> <span class="s1">'value'</span> <span class="o">=></span> <span class="nv">$items</span><span class="p">[</span><span class="s1">'qty'</span><span class="p">],</span> <span class="s1">'maxlength'</span> <span class="o">=></span> <span class="s1">'3'</span><span class="p">,</span> <span class="s1">'size'</span> <span class="o">=></span> <span class="s1">'5'</span><span class="p">));</span> <span class="cp">?></span><span class="p"></</span><span class="nt">td</span><span class="p">></span>
-                <span class="p"><</span><span class="nt">td</span><span class="p">></span>
-                        <span class="cp"><?php</span> <span class="k">echo</span> <span class="nv">$items</span><span class="p">[</span><span class="s1">'name'</span><span class="p">];</span> <span class="cp">?></span>
+                                                <strong><?php echo $option_name; ?>:</strong> <?php echo $option_value; ?><br />
+```PHP
+                                        <?php endforeach; ?>
+                                </p>
 
-                        <span class="cp"><?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">has_options</span><span class="p">(</span><span class="nv">$items</span><span class="p">[</span><span class="s1">'rowid'</span><span class="p">])</span> <span class="o">==</span> <span class="k">TRUE</span><span class="p">)</span><span class="o">:</span> <span class="cp">?></span>
+                        <?php endif; ?>
 
-                                <span class="p"><</span><span class="nt">p</span><span class="p">></span>
-                                        <span class="cp"><?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">product_options</span><span class="p">(</span><span class="nv">$items</span><span class="p">[</span><span class="s1">'rowid'</span><span class="p">])</span> <span class="k">as</span> <span class="nv">$option_name</span> <span class="o">=></span> <span class="nv">$option_value</span><span class="p">)</span><span class="o">:</span> <span class="cp">?></span>
+                </td>
+                <td style="text-align:right"><?php echo $cart->format_number($items['price']); ?></td>
+                <td style="text-align:right">$<?php echo $cart->format_number($items['subtotal']); ?></td>
+        </tr>
+<?php endforeach; ?>
 
-                                                <span class="p"><</span><span class="nt">strong</span><span class="p">></span><span class="cp"><?php</span> <span class="k">echo</span> <span class="nv">$option_name</span><span class="p">;</span> <span class="cp">?></span>:<span class="p"></</span><span class="nt">strong</span><span class="p">></span> <span class="cp"><?php</span> <span class="k">echo</span> <span class="nv">$option_value</span><span class="p">;</span> <span class="cp">?></span><span class="p"><</span><span class="nt">br</span> <span class="p">/></span>
+<tr>
+        <td colspan="2"></td>
+        <td class="right"><strong>Total</strong></td>
+        <td class="right">$ <?php echo $cart->format_number($this->cart->total()); ?></td>
+</tr>
 
-                                        <span class="cp"><?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?></span>
-                                <span class="p"></</span><span class="nt">p</span><span class="p">></span>
-
-                        <span class="cp"><?php</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?></span>
-
-                <span class="p"></</span><span class="nt">td</span><span class="p">></span>
-                <span class="p"><</span><span class="nt">td</span> <span class="na">style</span><span class="o">=</span><span class="s">"text-align:right"</span><span class="p">></span><span class="cp"><?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">format_number</span><span class="p">(</span><span class="nv">$items</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]);</span> <span class="cp">?></span><span class="p"></</span><span class="nt">td</span><span class="p">></span>
-                <span class="p"><</span><span class="nt">td</span> <span class="na">style</span><span class="o">=</span><span class="s">"text-align:right"</span><span class="p">></span>$<span class="cp"><?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">format_number</span><span class="p">(</span><span class="nv">$items</span><span class="p">[</span><span class="s1">'subtotal'</span><span class="p">]);</span> <span class="cp">?></span><span class="p"></</span><span class="nt">td</span><span class="p">></span>
-        <span class="p"></</span><span class="nt">tr</span><span class="p">></span>
-
-<span class="cp"><?php</span> <span class="nv">$i</span><span class="o">++</span><span class="p">;</span> <span class="cp">?></span>
-
-<span class="cp"><?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?></span>
-
-<span class="p"><</span><span class="nt">tr</span><span class="p">></span>
-        <span class="p"><</span><span class="nt">td</span> <span class="na">colspan</span><span class="o">=</span><span class="s">"2"</span><span class="p">></span> <span class="p"></</span><span class="nt">td</span><span class="p">></span>
-        <span class="p"><</span><span class="nt">td</span> <span class="na">class</span><span class="o">=</span><span class="s">"right"</span><span class="p">><</span><span class="nt">strong</span><span class="p">></span>Total<span class="p"></</span><span class="nt">strong</span><span class="p">></</span><span class="nt">td</span><span class="p">></span>
-        <span class="p"><</span><span class="nt">td</span> <span class="na">class</span><span class="o">=</span><span class="s">"right"</span><span class="p">></span>$<span class="cp"><?php</span> <span class="k">echo</span> <span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">format_number</span><span class="p">(</span><span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">total</span><span class="p">());</span> <span class="cp">?></span><span class="p"></</span><span class="nt">td</span><span class="p">></span>
-<span class="p"></</span><span class="nt">tr</span><span class="p">></span>
-
-<span class="p"></</span><span class="nt">table</span><span class="p">></span>
-
-<span class="p"><</span><span class="nt">p</span><span class="p">></span><span class="cp"><?php</span> <span class="k">echo</span> <span class="nx">form_submit</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="s1">'Update your Cart'</span><span class="p">);</span> <span class="cp">?></span><span class="p"></</span><span class="nt">p</span><span class="p">></span>
+</table>
+<button type="submit">Save Cart</button>
+</form>
 </pre>
 
 </div>
@@ -288,7 +304,7 @@ Please note that this example uses the [<span class="doc">form helper</span>](..
 ### [Updating The Cart](#toc-entry-6)[¶](#updating-the-cart "Permalink to this headline")
 
 To update the information in your cart, you must pass an array containing the Row ID and one or more pre-defined
-properties to the `<span class="pre">$this->cart->update()</span>` method.
+properties to the `<span class="pre">$this->cart->update()` method.
 
 <div class="admonition note">
 
@@ -302,31 +318,31 @@ If the quantity is set to zero, the item will be removed from the cart.
 
 <div class="highlight">
 
-<pre style="position: relative;"><span></span><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-        <span class="s1">'rowid'</span> <span class="o">=></span> <span class="s1">'b99ccdf16028f015540f341130b6d8ec'</span><span class="p">,</span>
-        <span class="s1">'qty'</span>   <span class="o">=></span> <span class="mi">3</span>
-<span class="p">);</span>
+<pre style="position: relative;">$data = array(
+        'rowid' => 'b99ccdf16028f015540f341130b6d8ec',
+        'qty'   => 3
+);
 
-<span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">update</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+$this->cart->update($data);
 
-<span class="c1">// Or a multi-dimensional array</span>
+<span class="c1">// Or a multi-dimensional array
 
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-        <span class="k">array</span><span class="p">(</span>
-                <span class="s1">'rowid'</span>   <span class="o">=></span> <span class="s1">'b99ccdf16028f015540f341130b6d8ec'</span><span class="p">,</span>
-                <span class="s1">'qty'</span>     <span class="o">=></span> <span class="mi">3</span>
-        <span class="p">),</span>
-        <span class="k">array</span><span class="p">(</span>
-                <span class="s1">'rowid'</span>   <span class="o">=></span> <span class="s1">'xw82g9q3r495893iajdh473990rikw23'</span><span class="p">,</span>
-                <span class="s1">'qty'</span>     <span class="o">=></span> <span class="mi">4</span>
-        <span class="p">),</span>
-        <span class="k">array</span><span class="p">(</span>
-                <span class="s1">'rowid'</span>   <span class="o">=></span> <span class="s1">'fh4kdkkkaoe30njgoe92rkdkkobec333'</span><span class="p">,</span>
-                <span class="s1">'qty'</span>     <span class="o">=></span> <span class="mi">2</span>
-        <span class="p">)</span>
-<span class="p">);</span>
+$data = array(
+        array(
+                'rowid'   => 'b99ccdf16028f015540f341130b6d8ec',
+                'qty'     => 3
+        ),
+        array(
+                'rowid'   => 'xw82g9q3r495893iajdh473990rikw23',
+                'qty'     => 4
+        ),
+        array(
+                'rowid'   => 'fh4kdkkkaoe30njgoe92rkdkkobec333',
+                'qty'     => 2
+        )
+);
 
-<span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">update</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+$this->cart->update($data);
 </pre>
 
 </div>
@@ -340,14 +356,14 @@ custom fields.
 
 <div class="highlight">
 
-<pre style="position: relative;"><span></span><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-        <span class="s1">'rowid'</span>  <span class="o">=></span> <span class="s1">'b99ccdf16028f015540f341130b6d8ec'</span><span class="p">,</span>
-        <span class="s1">'qty'</span>    <span class="o">=></span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s1">'price'</span>  <span class="o">=></span> <span class="mf">49.95</span><span class="p">,</span>
-        <span class="s1">'coupon'</span> <span class="o">=></span> <span class="k">NULL</span>
-<span class="p">);</span>
+<pre style="position: relative;">$data = array(
+        'rowid'  => 'b99ccdf16028f015540f341130b6d8ec',
+        'qty'    => 1,
+        'price'  => <span class="mf">49.95,
+        'coupon' => NULL
+);
 
-<span class="nv">$this</span><span class="o">-></span><span class="na">cart</span><span class="o">-></span><span class="na">update</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+$this->cart->update($data);
 </pre>
 
 </div>
@@ -369,7 +385,7 @@ independently. It does so by creating a unique “row ID” based on the product
 In nearly all cases, updating the cart will be something the user does via the “view cart” page, so as a developer, it
 is unlikely that you will ever have to concern yourself with the “row ID”, other than making sure your “view cart” page
 contains this information in a hidden form field, and making sure it gets passed to
-the `<span class="pre">update()</span>` method when the update form is submitted. Please examine the construction of the
+the `update()` method when the update form is submitted. Please examine the construction of the
 “view cart” page above for more information.
 
 </div>
@@ -428,7 +444,7 @@ Whether or not to only allow safe product names. Default TRUE.
 
 <dl class="method">
 
-<dt id="CI_Cart::insert">`insert`<span class="sig-paren">(</span><span class="optional">[</span>_$items = array()_<span class="optional">]</span><span class="sig-paren">)</span>[¶](#CI_Cart::insert "Permalink to this definition")</dt>
+<dt id="CI_Cart::insert">`insert`<span class="sig-paren">(<span class="optional">[_$items = array()_<span class="optional">]<span class="sig-paren">)[¶](#CI_Cart::insert "Permalink to this definition")</dt>
 
 <dd>
 
@@ -484,7 +500,7 @@ Insert items into the cart and save it to the session table. Returns TRUE on suc
 
 <dl class="method">
 
-<dt id="CI_Cart::update">`update`<span class="sig-paren">(</span><span class="optional">[</span>_$items = array()_<span class="optional">]</span><span class="sig-paren">)</span>[¶](#CI_Cart::update "Permalink to this definition")</dt>
+<dt id="CI_Cart::update">`update`<span class="sig-paren">(<span class="optional">[_$items = array()_<span class="optional">]<span class="sig-paren">)[¶](#CI_Cart::update "Permalink to this definition")</dt>
 
 <dd>
 
@@ -541,7 +557,7 @@ makes changes to the quantity before checkout. That array must contain the rowid
 
 <dl class="method">
 
-<dt id="CI_Cart::remove">`remove`<span class="sig-paren">(</span>_$rowid_<span class="sig-paren">)</span>[¶](#CI_Cart::remove "Permalink to this definition")</dt>
+<dt id="CI_Cart::remove">`remove`<span class="sig-paren">(_$rowid_<span class="sig-paren">)[¶](#CI_Cart::remove "Permalink to this definition")</dt>
 
 <dd>
 
@@ -589,7 +605,7 @@ bool
 
 </table>
 
-Allows you to remove an item from the shopping cart by passing it the `<span class="pre">$rowid</span>`.
+Allows you to remove an item from the shopping cart by passing it the `<span class="pre">$rowid`.
 
 </dd>
 
@@ -597,7 +613,7 @@ Allows you to remove an item from the shopping cart by passing it the `<span cla
 
 <dl class="method">
 
-<dt id="CI_Cart::total">`total`<span class="sig-paren">(</span><span class="sig-paren">)</span>[¶](#CI_Cart::total "Permalink to this definition")</dt>
+<dt id="CI_Cart::total">`total`<span class="sig-paren">(<span class="sig-paren">)[¶](#CI_Cart::total "Permalink to this definition")</dt>
 
 <dd>
 
@@ -633,7 +649,7 @@ Displays the total amount in the cart.
 
 <dl class="method">
 
-<dt id="CI_Cart::total_items">`total_items`<span class="sig-paren">(</span><span class="sig-paren">)</span>[¶](#CI_Cart::total_items "Permalink to this definition")</dt>
+<dt id="CI_Cart::total_items">`total_items`<span class="sig-paren">(<span class="sig-paren">)[¶](#CI_Cart::total_items "Permalink to this definition")</dt>
 
 <dd>
 
@@ -669,7 +685,7 @@ Displays the total number of items in the cart.
 
 <dl class="method">
 
-<dt id="CI_Cart::contents">`contents`<span class="sig-paren">(</span><span class="optional">[</span>_$newest_first = FALSE_<span class="optional">]</span><span class="sig-paren">)</span>[¶](#CI_Cart::contents "Permalink to this definition")</dt>
+<dt id="CI_Cart::contents">`contents`<span class="sig-paren">(<span class="optional">[_$newest_first = FALSE_<span class="optional">]<span class="sig-paren">)[¶](#CI_Cart::contents "Permalink to this definition")</dt>
 
 <dd>
 
@@ -726,7 +742,7 @@ TRUE where the contents will be sorted from newest to oldest, otherwise it is so
 
 <dl class="method">
 
-<dt id="CI_Cart::get_item">`get_item`<span class="sig-paren">(</span>_$row_id_<span class="sig-paren">)</span>[¶](#CI_Cart::get_item "Permalink to this definition")</dt>
+<dt id="CI_Cart::get_item">`get_item`<span class="sig-paren">(_$row_id_<span class="sig-paren">)[¶](#CI_Cart::get_item "Permalink to this definition")</dt>
 
 <dd>
 
@@ -782,7 +798,7 @@ Returns an array containing data for the item matching the specified row ID, or 
 
 <dl class="method">
 
-<dt id="CI_Cart::has_options">`has_options`<span class="sig-paren">(</span>_$row_id = ''_<span class="sig-paren">)</span>[¶](#CI_Cart::has_options "Permalink to this definition")</dt>
+<dt id="CI_Cart::has_options">`has_options`<span class="sig-paren">(_$row_id = ''_<span class="sig-paren">)[¶](#CI_Cart::has_options "Permalink to this definition")</dt>
 
 <dd>
 
@@ -831,7 +847,7 @@ bool
 </table>
 
 Returns TRUE (boolean) if a particular row in the cart contains options. This method is designed to be used in a loop
-with `<span class="pre">contents()</span>`, since you must pass the rowid to this method, as shown in the Displaying the
+with `<span class="pre">contents()`, since you must pass the rowid to this method, as shown in the Displaying the
 Cart example above.
 
 </dd>
@@ -840,7 +856,7 @@ Cart example above.
 
 <dl class="method">
 
-<dt id="CI_Cart::product_options">`product_options`<span class="sig-paren">(</span><span class="optional">[</span>_$row_id = ''_<span class="optional">]</span><span class="sig-paren">)</span>[¶](#CI_Cart::product_options "Permalink to this definition")</dt>
+<dt id="CI_Cart::product_options">`product_options`<span class="sig-paren">(<span class="optional">[_$row_id = ''_<span class="optional">]<span class="sig-paren">)[¶](#CI_Cart::product_options "Permalink to this definition")</dt>
 
 <dd>
 
@@ -889,7 +905,7 @@ array
 </table>
 
 Returns an array of options for a particular product. This method is designed to be used in a loop
-with `<span class="pre">contents()</span>`, since you must pass the rowid to this method, as shown in the Displaying the
+with `<span class="pre">contents()`, since you must pass the rowid to this method, as shown in the Displaying the
 Cart example above.
 
 </dd>
@@ -898,7 +914,7 @@ Cart example above.
 
 <dl class="method">
 
-<dt id="CI_Cart::destroy">`destroy`<span class="sig-paren">(</span><span class="sig-paren">)</span>[¶](#CI_Cart::destroy "Permalink to this definition")</dt>
+<dt id="CI_Cart::destroy">`destroy`<span class="sig-paren">(<span class="sig-paren">)[¶](#CI_Cart::destroy "Permalink to this definition")</dt>
 
 <dd>
 
