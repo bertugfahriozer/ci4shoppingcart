@@ -276,7 +276,7 @@ the one shown below.
 <tr>
         <td colspan="2"></td>
         <td class="right"><strong>Total</strong></td>
-        <td class="right">$ <?php echo $cart->format_number($this->cart->total()); ?></td>
+        <td class="right">$ <?php echo $cart->format_number($cart->total()); ?></td>
 </tr>
 
 </table>
