@@ -8,7 +8,7 @@
 
 <div class="section" id="shopping-cart-class">
 
-# Shopping Cart Class[¶](#shopping-cart-class "Permalink to this headline")
+# Shopping Cart Class(#shopping-cart-class "Permalink to this headline")
 
 The Cart Class permits items to be added to a session that stays active while a user is browsing your site. These items
 can be retrieved and displayed in a standard “shopping cart” format, allowing the user to update the quantity or remove
@@ -40,11 +40,11 @@ authorization, or other processing components.
 
 <div class="section" id="using-the-cart-class">
 
-## [Using the Cart Class](#toc-entry-1)[¶](#using-the-cart-class "Permalink to this headline")
+## [Using the Cart Class](#toc-entry-1)(#using-the-cart-class "Permalink to this headline")
 
 <div class="section" id="initializing-the-shopping-cart-class">
 
-### [Initializing the Shopping Cart Class](#toc-entry-2)[¶](#initializing-the-shopping-cart-class "Permalink to this headline")
+### [Initializing the Shopping Cart Class](#toc-entry-2)(#initializing-the-shopping-cart-class "Permalink to this headline")
 
 <div class="admonition important">
 
@@ -103,7 +103,7 @@ your application, you do not need to load the Session class.
 
 <div class="section" id="adding-an-item-to-the-cart">
 
-### [Adding an Item to The Cart](#toc-entry-3)[¶](#adding-an-item-to-the-cart "Permalink to this headline")
+### [Adding an Item to The Cart](#toc-entry-3)(#adding-an-item-to-the-cart "Permalink to this headline")
 
 To add an item to the shopping cart, simply pass an array with the product information to
 the `$this->cart->insert()` method, as shown below:
@@ -115,7 +115,7 @@ the `$this->cart->insert()` method, as shown below:
 <pre style="position: relative;">$data = array(
         'id'      => 'sku_123ABC',
         'qty'     => 1,
-        'price'   => <span class="mf">39.95,
+        'price'   => 39.95,
         'name'    => 'T-Shirt',
         'options' => array('Size' => 'L', 'Color' => 'Red')
 );
@@ -159,7 +159,7 @@ best to standardize your data among all your products in order to make displayin
 <pre style="position: relative;">$data = array(
         'id'      => 'sku_123ABC',
         'qty'     => 1,
-        'price'   => <span class="mf">39.95,
+        'price'   => 39.95,
         'name'    => 'T-Shirt',
         'coupon'         => 'XMAS-50OFF'
 );
@@ -171,13 +171,13 @@ $this->cart->insert($data);
 
 </div>
 
-The `<span class="pre">insert()` method will return the $rowid if you successfully insert a single item.
+The `insert()` method will return the $rowid if you successfully insert a single item.
 
 </div>
 
 <div class="section" id="adding-multiple-items-to-the-cart">
 
-### [Adding Multiple Items to The Cart](#toc-entry-4)[¶](#adding-multiple-items-to-the-cart "Permalink to this headline")
+### [Adding Multiple Items to The Cart](#toc-entry-4)(#adding-multiple-items-to-the-cart "Permalink to this headline")
 
 By using a multi-dimensional array, as shown below, it is possible to add multiple products to the cart in one action.
 This is useful in cases where you wish to allow people to select from among several items on the same page.
@@ -190,20 +190,20 @@ This is useful in cases where you wish to allow people to select from among seve
         array(
                 'id'      => 'sku_123ABC',
                 'qty'     => 1,
-                'price'   => <span class="mf">39.95,
+                'price'   => 39.95,
                 'name'    => 'T-Shirt',
                 'options' => array('Size' => 'L', 'Color' => 'Red')
         ),
         array(
                 'id'      => 'sku_567ZYX',
                 'qty'     => 1,
-                'price'   => <span class="mf">9.95,
+                'price'   => 9.95,
                 'name'    => 'Coffee Mug'
         ),
         array(
                 'id'      => 'sku_965QRS',
                 'qty'     => 1,
-                'price'   => <span class="mf">29.95,
+                'price'   => 29.95,
                 'name'    => 'Shot Glass'
         )
 );
@@ -219,30 +219,27 @@ $this->cart->insert($data);
 
 <div class="section" id="displaying-the-cart">
 
-### [Displaying the Cart](#toc-entry-5)[¶](#displaying-the-cart "Permalink to this headline")
+### [Displaying the Cart](#toc-entry-5)(#displaying-the-cart "Permalink to this headline")
 
 To display the cart you will create a view file with code similar to
 the one shown below.
-
-Please note that this example uses the form helper.
 
 <div class="highlight-ci">
 
 <div class="highlight">
 
-<pre style="position: relative;">
+
 ```PHP
 <?php
 /*add your controller */
   public function yourMethod(){
     return view('path/view',['cart'=>$this->cart]);
   }
-</pre>
+```
 
-<pre>
+```PHP
 /*view*/
-<form action="```PHP
-<?php route_to('yourRoute')" method="post">
+<form action="<?php echo route_to('yourRoute')" method="post">
 
 <table cellpadding="6" cellspacing="1" style="width:100%" border="0">
 
@@ -252,30 +249,20 @@ Please note that this example uses the form helper.
         <th style="text-align:right">Item Price</th>
         <th style="text-align:right">Sub-Total</th>
 </tr>
-```PHP
-<?php foreach ($cart->contents() as $items): ?>
-```PHP
-        <?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
 
+<?php foreach ($cart->contents() as $items): ?>
+        <?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
         <tr>
                 <td><input type="number" value="<?php $items['qty'] ?>"></td>
                 <td>
-```PHP
                         <?php echo $items['name']; ?>
-```PHP
                         <?php if ($cart->has_options($items['rowid']) == TRUE): ?>
-
                                 <p>
-```PHP
                                         <?php foreach ($cart->product_options($items['rowid']) as $option_name => $option_value): ?>
-
                                                 <strong><?php echo $option_name; ?>:</strong> <?php echo $option_value; ?><br />
-```PHP
                                         <?php endforeach; ?>
                                 </p>
-
                         <?php endif; ?>
-
                 </td>
                 <td style="text-align:right"><?php echo $cart->format_number($items['price']); ?></td>
                 <td style="text-align:right">$<?php echo $cart->format_number($items['subtotal']); ?></td>
@@ -291,7 +278,7 @@ Please note that this example uses the form helper.
 </table>
 <button type="submit">Save Cart</button>
 </form>
-</pre>
+```
 
 </div>
 
@@ -301,10 +288,10 @@ Please note that this example uses the form helper.
 
 <div class="section" id="updating-the-cart">
 
-### [Updating The Cart](#toc-entry-6)[¶](#updating-the-cart "Permalink to this headline")
+### [Updating The Cart](#toc-entry-6)(#updating-the-cart "Permalink to this headline")
 
 To update the information in your cart, you must pass an array containing the Row ID and one or more pre-defined
-properties to the `<span class="pre">$this->cart->update()` method.
+properties to the `$this->cart->update()` method.
 
 <div class="admonition note">
 
@@ -325,7 +312,7 @@ If the quantity is set to zero, the item will be removed from the cart.
 
 $this->cart->update($data);
 
-<span class="c1">// Or a multi-dimensional array
+// Or a multi-dimensional array
 
 $data = array(
         array(
@@ -359,7 +346,7 @@ custom fields.
 <pre style="position: relative;">$data = array(
         'rowid'  => 'b99ccdf16028f015540f341130b6d8ec',
         'qty'    => 1,
-        'price'  => <span class="mf">49.95,
+        'price'  => 49.95,
         'coupon' => NULL
 );
 
@@ -372,7 +359,7 @@ $this->cart->update($data);
 
 <div class="section" id="what-is-a-row-id">
 
-#### [What is a Row ID?](#toc-entry-7)[¶](#what-is-a-row-id "Permalink to this headline")
+#### [What is a Row ID?](#toc-entry-7)
 
 The row ID is a unique identifier that is generated by the cart code when an item is added to the cart. The reason a
 unique ID is created is so that identical products with different options can be managed by the cart.
@@ -396,11 +383,11 @@ the `update()` method when the update form is submitted. Please examine the cons
 
 <div class="section" id="class-reference">
 
-## [Class Reference](#toc-entry-8)[¶](#class-reference "Permalink to this headline")
+## [Class Reference](#class-reference)
 
 <dl class="class">
 
-<dt id="CI_Cart">_class_ `CI_Cart`[¶](#CI_Cart "Permalink to this definition")</dt>
+<dt id="Cart">class `Cart`</dt>
 
 <dd>
 
@@ -444,7 +431,7 @@ Whether or not to only allow safe product names. Default TRUE.
 
 <dl class="method">
 
-<dt id="CI_Cart::insert">`insert`<span class="sig-paren">(<span class="optional">[_$items = array()_<span class="optional">]<span class="sig-paren">)[¶](#CI_Cart::insert "Permalink to this definition")</dt>
+<dt id="Cart::insert">`insert`([$items = array()])</dt>
 
 <dd>
 
@@ -500,7 +487,7 @@ Insert items into the cart and save it to the session table. Returns TRUE on suc
 
 <dl class="method">
 
-<dt id="CI_Cart::update">`update`<span class="sig-paren">(<span class="optional">[_$items = array()_<span class="optional">]<span class="sig-paren">)[¶](#CI_Cart::update "Permalink to this definition")</dt>
+<dt id="Cart::update">`update`([$items = array()])</dt>
 
 <dd>
 
@@ -557,7 +544,7 @@ makes changes to the quantity before checkout. That array must contain the rowid
 
 <dl class="method">
 
-<dt id="CI_Cart::remove">`remove`<span class="sig-paren">(_$rowid_<span class="sig-paren">)[¶](#CI_Cart::remove "Permalink to this definition")</dt>
+<dt id="Cart::remove">`remove`($rowid)</dt>
 
 <dd>
 
@@ -605,7 +592,7 @@ bool
 
 </table>
 
-Allows you to remove an item from the shopping cart by passing it the `<span class="pre">$rowid`.
+Allows you to remove an item from the shopping cart by passing it the `$rowid`.
 
 </dd>
 
@@ -613,7 +600,7 @@ Allows you to remove an item from the shopping cart by passing it the `<span cla
 
 <dl class="method">
 
-<dt id="CI_Cart::total">`total`<span class="sig-paren">(<span class="sig-paren">)[¶](#CI_Cart::total "Permalink to this definition")</dt>
+<dt id="Cart::total">`total`()</dt>
 
 <dd>
 
@@ -649,7 +636,7 @@ Displays the total amount in the cart.
 
 <dl class="method">
 
-<dt id="CI_Cart::total_items">`total_items`<span class="sig-paren">(<span class="sig-paren">)[¶](#CI_Cart::total_items "Permalink to this definition")</dt>
+<dt id="Cart::total_items">`total_items`()</dt>
 
 <dd>
 
@@ -685,7 +672,7 @@ Displays the total number of items in the cart.
 
 <dl class="method">
 
-<dt id="CI_Cart::contents">`contents`<span class="sig-paren">(<span class="optional">[_$newest_first = FALSE_<span class="optional">]<span class="sig-paren">)[¶](#CI_Cart::contents "Permalink to this definition")</dt>
+<dt id="Cart::contents">`contents`([$newest_first = FALSE])</dt>
 
 <dd>
 
@@ -742,7 +729,7 @@ TRUE where the contents will be sorted from newest to oldest, otherwise it is so
 
 <dl class="method">
 
-<dt id="CI_Cart::get_item">`get_item`<span class="sig-paren">(_$row_id_<span class="sig-paren">)[¶](#CI_Cart::get_item "Permalink to this definition")</dt>
+<dt id="Cart::get_item">`get_item`($row_id)</dt>
 
 <dd>
 
@@ -798,7 +785,7 @@ Returns an array containing data for the item matching the specified row ID, or 
 
 <dl class="method">
 
-<dt id="CI_Cart::has_options">`has_options`<span class="sig-paren">(_$row_id = ''_<span class="sig-paren">)[¶](#CI_Cart::has_options "Permalink to this definition")</dt>
+<dt id="Cart::has_options">`has_options`($row_id = '')</dt>
 
 <dd>
 
@@ -847,7 +834,7 @@ bool
 </table>
 
 Returns TRUE (boolean) if a particular row in the cart contains options. This method is designed to be used in a loop
-with `<span class="pre">contents()`, since you must pass the rowid to this method, as shown in the Displaying the
+with `contents()`, since you must pass the rowid to this method, as shown in the Displaying the
 Cart example above.
 
 </dd>
@@ -856,7 +843,7 @@ Cart example above.
 
 <dl class="method">
 
-<dt id="CI_Cart::product_options">`product_options`<span class="sig-paren">(<span class="optional">[_$row_id = ''_<span class="optional">]<span class="sig-paren">)[¶](#CI_Cart::product_options "Permalink to this definition")</dt>
+<dt id="Cart::product_options">`product_options`([$row_id = ''])</dt>
 
 <dd>
 
@@ -905,7 +892,7 @@ array
 </table>
 
 Returns an array of options for a particular product. This method is designed to be used in a loop
-with `<span class="pre">contents()`, since you must pass the rowid to this method, as shown in the Displaying the
+with `contents()`, since you must pass the rowid to this method, as shown in the Displaying the
 Cart example above.
 
 </dd>
@@ -914,7 +901,7 @@ Cart example above.
 
 <dl class="method">
 
-<dt id="CI_Cart::destroy">`destroy`<span class="sig-paren">(<span class="sig-paren">)[¶](#CI_Cart::destroy "Permalink to this definition")</dt>
+<dt id="Cart::destroy">`destroy`()</dt>
 
 <dd>
 
