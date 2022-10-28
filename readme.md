@@ -64,7 +64,7 @@ the `$cart=new Cart()` class:
 <div class="highlight">
 
 ```PHP
-use \ci4shoppingCart\Libraries\Cart;
+use ci4shoppingcart\Libraries\Cart;
 
 public $cart
 
