@@ -8,7 +8,7 @@
 
 <div class="section" id="shopping-cart-class">
 
-# Shopping Cart Class(#shopping-cart-class "Permalink to this headline")
+# Shopping Cart Class(#shopping-cart-class)
 
 The Cart Class permits items to be added to a session that stays active while a user is browsing your site. These items
 can be retrieved and displayed in a standard “shopping cart” format, allowing the user to update the quantity or remove
@@ -40,11 +40,11 @@ authorization, or other processing components.
 
 <div class="section" id="using-the-cart-class">
 
-## [Using the Cart Class](#toc-entry-1)(#using-the-cart-class "Permalink to this headline")
+## [Using the Cart Class](#toc-entry-1)(#using-the-cart-class)
 
 <div class="section" id="initializing-the-shopping-cart-class">
 
-### [Initializing the Shopping Cart Class](#toc-entry-2)(#initializing-the-shopping-cart-class "Permalink to this headline")
+### [Initializing the Shopping Cart Class](#toc-entry-2)(#initializing-the-shopping-cart-class)
 
 <div class="admonition important">
 
@@ -104,7 +104,7 @@ your application, you do not need to load the Session class.
 
 <div class="section" id="adding-an-item-to-the-cart">
 
-### [Adding an Item to The Cart](#toc-entry-3)(#adding-an-item-to-the-cart "Permalink to this headline")
+### [Adding an Item to The Cart](#toc-entry-3)(#adding-an-item-to-the-cart)
 
 To add an item to the shopping cart, simply pass an array with the product information to
 the `$this->cart->insert()` method, as shown below:
@@ -180,7 +180,7 @@ The `insert()` method will return the $rowid if you successfully insert a single
 
 <div class="section" id="adding-multiple-items-to-the-cart">
 
-### [Adding Multiple Items to The Cart](#toc-entry-4)(#adding-multiple-items-to-the-cart "Permalink to this headline")
+### [Adding Multiple Items to The Cart](#toc-entry-4)(#adding-multiple-items-to-the-cart)
 
 By using a multi-dimensional array, as shown below, it is possible to add multiple products to the cart in one action.
 This is useful in cases where you wish to allow people to select from among several items on the same page.
@@ -223,7 +223,7 @@ $this->cart->insert($data);
 
 <div class="section" id="displaying-the-cart">
 
-### [Displaying the Cart](#toc-entry-5)(#displaying-the-cart "Permalink to this headline")
+### [Displaying the Cart](#toc-entry-5)(#displaying-the-cart)
 
 To display the cart you will create a view file with code similar to
 the one shown below.
@@ -292,7 +292,7 @@ the one shown below.
 
 <div class="section" id="updating-the-cart">
 
-### [Updating The Cart](#toc-entry-6)(#updating-the-cart "Permalink to this headline")
+### [Updating The Cart](#toc-entry-6)(#updating-the-cart)
 
 To update the information in your cart, you must pass an array containing the Row ID and one or more pre-defined
 properties to the `$this->cart->update()` method.
