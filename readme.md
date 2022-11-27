@@ -46,15 +46,25 @@ authorization, or other processing components.
 
 ### [Initializing the Shopping Cart Class](#initializing-the-shopping-cart-class)
 
-<div class="admonition important">
+<div>
 
-Important
+#### Important
 
 The Cart class utilizes CodeIgniter’s Session Class to save the cart information to a database, so before using the Cart
 class you must set up a database table as indicated in the Session Documentation, and set the session preferences in
 your .env file to utilize a database.
 
 </div>
+
+---
+
+#### Composer installation
+
+```composer require bertugfahriozer/ci4shoppingcart```
+
+When you install composer, you will see example directory. You can copy and paste your project or how do you want.
+
+---
 
 To initialize the Shopping Cart Class in your controller constructor, use
 the `$cart=new Cart()` class:
@@ -243,7 +253,7 @@ the one shown below.
 
 ```PHP
 /*view*/
-<form action="<?php echo route_to('yourRoute')" method="post">
+<form action="<?php echo route_to('yourRoute')?>" method="post">
 
 <table cellpadding="6" cellspacing="1" style="width:100%" border="0">
 
@@ -255,9 +265,8 @@ the one shown below.
 </tr>
 
 <?php foreach ($cart->contents() as $items): ?>
-        <?php echo form_hidden($i.'[rowid]', $items['rowid']); ?>
         <tr>
-                <td><input type="number" value="<?php $items['qty'] ?>"></td>
+                <td><input type="number" value="<?php echo $items['qty'] ?>"></td>
                 <td>
                         <?php echo $items['name']; ?>
                         <?php if ($cart->has_options($items['rowid']) == TRUE): ?>
@@ -268,15 +277,15 @@ the one shown below.
                                 </p>
                         <?php endif; ?>
                 </td>
-                <td style="text-align:right"><?php echo $cart->format_number($items['price']); ?></td>
-                <td style="text-align:right">$<?php echo $cart->format_number($items['subtotal']); ?></td>
+                <td style="text-align:right">₺ <?php echo $cart->format_number($items['price']); ?></td>
+                <td style="text-align:right">₺ <?php echo $cart->format_number($items['subtotal']); ?></td>
         </tr>
 <?php endforeach; ?>
 
 <tr>
         <td colspan="2"></td>
         <td class="right"><strong>Total</strong></td>
-        <td class="right">$ <?php echo $cart->format_number($cart->total()); ?></td>
+        <td class="right">₺ <?php echo $cart->format_number($cart->total()); ?></td>
 </tr>
 
 </table>
