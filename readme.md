@@ -29,7 +29,7 @@ The Cart class utilizes CodeIgniter’s Session Class to save the cart informati
 
 `composer require bertugfahriozer/ci4shoppingcart`
 
-## When you install composer, you will see example directory. You can copy and paste your project or how do you want.
+**When you install composer, you will see example directory. You can copy and paste your project or how do you want.**
 
 To initialize the Shopping Cart Class in your controller constructor, use the `$cart=new Cart()` class:
 
