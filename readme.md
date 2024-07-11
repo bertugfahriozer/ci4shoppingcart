@@ -9,11 +9,12 @@ The Cart library is DEPRECATED and should not be used. It is currently only kept
 Please note that the Cart Class ONLY provides the core “cart” functionality. It does not provide shipping, credit card authorization, or other processing components.
 
 - [Shopping Cart Class](#shopping-cart-class) - [Important](#important)
-  - [Using the Cart Class](#using-the-cart-class)
-    - [Initializing the Shopping Cart Class](#initializing-the-shopping-cart-class)
-      - [Important](#important-1)
-      - [Composer installation](#composer-installation)
-  - [When you install composer, you will see example directory. You can copy and paste your project or how do you want.](#when-you-install-composer-you-will-see-example-directory-you-can-copy-and-paste-your-project-or-how-do-you-want)
+- [Using the Cart Class](#using-the-cart-class)
+  - [Initializing the Shopping Cart Class](#initializing-the-shopping-cart-class)
+    - [Important](#important-1)
+    - [Composer installation](#composer-installation)
+- [What is the Row ID](#what-is-a-row-id)
+- [Class Reference](#class-reference)
 
 ## [Using the Cart Class](#using-the-cart-class)
 
@@ -51,7 +52,9 @@ $this->cart
 
 Note The Cart Class will load and initialize the Session Class automatically, so unless you are using sessions elsewhere in your application, you do not need to load the Session class.
 
-### [Adding an Item to The Cart](#adding-an-item-to-the-cart) To add an item to the shopping cart, simply pass an array with the product information to the `$this->cart->insert()` method, as shown below:
+### [Adding an Item to The Cart](#adding-an-item-to-the-cart)
+
+To add an item to the shopping cart, simply pass an array with the product information to the `$this->cart->insert()` method, as shown below:
 
 ```PHP
 $data = array(
