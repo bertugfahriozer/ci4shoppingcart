@@ -2,10 +2,6 @@
 
 The Cart Class permits items to be added to a session that stays active while a user is browsing your site. These items can be retrieved and displayed in a standard “shopping cart” format, allowing the user to update the quantity or remove items from the cart.
 
-##### Important
-
-The Cart library is DEPRECATED and should not be used. It is currently only kept for backwards compatibility.
-
 Please note that the Cart Class ONLY provides the core “cart” functionality. It does not provide shipping, credit card authorization, or other processing components.
 
 - [Shopping Cart Class](#shopping-cart-class) - [Important](#important)
