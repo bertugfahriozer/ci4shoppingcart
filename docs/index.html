@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeIgniter 4 Shopping Cart Class</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #123a49;
+        --secondary: #2da592;
+        --accent: #8bcbb7;
+        --light: #f5faf6;
+        --dark: #123a49;
+        --gray: #6c757d;
+        --light-gray: #e9ecef;
+        --warning: #e63946;
+        --warning-bg: #f8d7da;
+        --success: #2da592;
+        --code-bg: #1e1e1e;
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+        padding-bottom: 50px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Styles */
+      header {
+        background: linear-gradient(135deg, var(--primary) 0%, #1a4a5d 100%);
+        color: white;
+        padding: 3rem 0;
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        transform: rotate(30deg);
+      }
+
+      .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .logo {
+        font-size: 3rem;
+        color: white;
+        background: rgba(255, 255, 255, 0.2);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pulse 2s infinite;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto 20px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .badges {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 15px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .badge {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 6px 18px;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .badge-success {
+        background: rgba(45, 165, 146, 0.2);
+        border-color: rgba(45, 165, 146, 0.3);
+      }
+
+      /* Navigation */
+      .nav-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        max-width: 1000px;
+        margin: 0 auto 40px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .nav-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .nav-tabs li {
+        flex: 1;
+        text-align: center;
+      }
+
+      .nav-tabs a {
+        display: flex;
+        flex-direction: column;
+        padding: 15px 10px;
+        text-decoration: none;
+        color: var(--gray);
+        font-weight: 500;
+        transition: var(--transition);
+        border-bottom: 3px solid transparent;
+        font-size: 0.9rem;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .nav-tabs a:hover,
+      .nav-tabs a.active {
+        color: var(--primary);
+        border-bottom: 3px solid var(--secondary);
+      }
+
+      .nav-tabs a i {
+        font-size: 1.2rem;
+      }
+
+      /* Content Styles */
+      .content-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+        border-top: 4px solid var(--secondary);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--light-gray);
+      }
+
+      .section-header i {
+        color: var(--secondary);
+        font-size: 1.5rem;
+        background: rgba(139, 203, 183, 0.2);
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .section-header h2 {
+        font-size: 1.6rem;
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .notice-box {
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+        display: flex;
+        gap: 12px;
+      }
+
+      .warning-box {
+        background: var(--warning-bg);
+        border-left: 4px solid var(--warning);
+      }
+
+      .info-box {
+        background: rgba(139, 203, 183, 0.1);
+        border-left: 4px solid var(--accent);
+      }
+
+      .notice-box i {
+        font-size: 1.2rem;
+        margin-top: 2px;
+      }
+
+      .warning-box i {
+        color: var(--warning);
+      }
+
+      .info-box i {
+        color: var(--secondary);
+      }
+
+      .notice-content h4 {
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+
+      /* Code Block */
+      .code-block {
+        background: var(--code-bg);
+        color: #f8f8f2;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        overflow-x: auto;
+        font-family: "Fira Code", monospace;
+        position: relative;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .code-block::before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ff5f56;
+        box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f;
+      }
+
+      .code-block code {
+        display: block;
+        padding-top: 15px;
+      }
+
+      .keyword {
+        color: #ff79c6;
+      }
+
+      .string {
+        color: #50fa7b;
+      }
+
+      .comment {
+        color: #6272a4;
+        font-style: italic;
+      }
+
+      .function {
+        color: #66d9ef;
+      }
+
+      .tag {
+        color: #ff79c6;
+      }
+
+      /* Tables */
+      .reference-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+      }
+
+      .reference-table th {
+        background: var(--primary);
+        color: white;
+        text-align: left;
+        padding: 15px;
+        font-weight: 500;
+      }
+
+      .reference-table td {
+        padding: 15px;
+        border-bottom: 1px solid var(--light-gray);
+        vertical-align: top;
+      }
+
+      .reference-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .reference-table tr:nth-child(even) {
+        background: rgba(139, 203, 183, 0.05);
+      }
+
+      /* Footer */
+      footer {
+        background: linear-gradient(135deg, var(--primary) 0%, #1a4a5d 100%);
+        color: white;
+        padding: 30px 0;
+        margin-top: 50px;
+        border-radius: 15px 15px 0 0;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 20px;
+      }
+
+      .footer-column h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-column h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: var(--accent);
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+        transform: translateX(5px);
+      }
+
+      .footer-links i {
+        width: 20px;
+      }
+
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+      }
+
+      /* Animations */
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .nav-tabs a span {
+          display: none;
+        }
+
+        .nav-tabs a i {
+          font-size: 1.3rem;
+        }
+
+        h1 {
+          font-size: 2.2rem;
+        }
+
+        .logo {
+          font-size: 2.5rem;
+          width: 70px;
+          height: 70px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-tabs li {
+          flex: 0 0 33.333%;
+        }
+
+        .section-header h2 {
+          font-size: 1.4rem;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .nav-tabs li {
+          flex: 0 0 50%;
+        }
+
+        .section-header {
+          flex-direction: column;
+          text-align: center;
+          gap: 10px;
+        }
+
+        .section-header i {
+          margin-bottom: 10px;
+        }
+
+        .notice-box {
+          flex-direction: column;
+        }
+      }
+
+      .tab1 {
+        tab-size: 2;
+      }
+
+      .tab2 {
+        tab-size: 4;
+      }
+
+      .tab4 {
+        tab-size: 8;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container">
+        <div class="logo-container">
+          <div class="logo">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <div>
+            <h1>CodeIgniter 4 Shopping Cart Class</h1>
+            <p class="subtitle">
+              A flexible cart library for CodeIgniter 4 that maintains items in
+              a session
+            </p>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge"><i class="fas fa-code-branch"></i> v1.x</span>
+          <span class="badge"><i class="fab fa-php"></i> PHP 7.4+</span>
+          <span class="badge badge-success"
+            ><i class="fas fa-check-circle"></i> Active</span
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="container">
+      <div class="nav-container">
+        <ul class="nav-tabs">
+          <li>
+            <a href="#important" class="active"
+              ><i class="fas fa-info-circle"></i> <span>Important</span></a
+            >
+          </li>
+          <li>
+            <a href="#usage"
+              ><i class="fas fa-shopping-cart"></i> <span>Usage</span></a
+            >
+          </li>
+          <li>
+            <a href="#initialization"
+              ><i class="fas fa-cog"></i> <span>Initialization</span></a
+            >
+          </li>
+          <li>
+            <a href="#reference"
+              ><i class="fas fa-book"></i> <span>Reference</span></a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Important Notice -->
+    <div class="container">
+      <div class="content-card" id="important">
+        <div class="section-header">
+          <i class="fas fa-info-circle"></i>
+          <h2>Important Notice</h2>
+        </div>
+
+        <p>
+          The Cart Class ONLY provides the core "cart" functionality. It does
+          not provide:
+        </p>
+        <ul style="margin: 15px 0 20px 25px">
+          <li>Shipping calculations</li>
+          <li>Credit card authorization</li>
+          <li>Payment processing components</li>
+          <li>User authentication</li>
+        </ul>
+
+        <div class="notice-box info-box">
+          <i class="fas fa-info-circle"></i>
+          <div class="notice-content">
+            <h4>Core Functionality</h4>
+            <p>
+              This library focuses exclusively on managing the shopping cart
+              session data. You'll need to implement other e-commerce features
+              separately.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage -->
+    <div class="container">
+      <div class="content-card" id="usage">
+        <div class="section-header">
+          <i class="fas fa-shopping-cart"></i>
+          <h2>Using the Cart Class</h2>
+        </div>
+
+        <h3 style="margin: 20px 0 15px; color: var(--primary)">
+          Adding Items to Cart
+        </h3>
+        <p>
+          To add an item to the shopping cart, pass an array with product
+          information to the <code>insert()</code> method:
+        </p>
+
+        <div class="code-block">
+          <code
+            >$data = array( <span class="string">'id'</span> =>
+            <span class="string">'sku_123ABC'</span>,
+            <span class="string">'qty'</span> => <span class="keyword">1</span>,
+            <span class="string">'price'</span> =>
+            <span class="keyword">39.95</span>,
+            <span class="string">'name'</span> =>
+            <span class="string">'T-Shirt'</span>,
+            <span class="string">'options'</span> => array(<span class="string"
+              >'Size'</span
+            >
+            => <span class="string">'L'</span>,
+            <span class="string">'Color'</span> =>
+            <span class="string">'Red'</span>) );
+
+            <span class="keyword">$this</span>->cart->insert($data);</code
+          >
+        </div>
+
+        <div class="notice-box info-box">
+          <i class="fas fa-info-circle"></i>
+          <div class="notice-content">
+            <h4>Required Fields</h4>
+            <p>
+              The first four array indexes (id, qty, price, and name) are
+              <strong>required</strong>. The fifth index (options) is optional
+              for product variations.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="margin: 25px 0 15px; color: var(--primary)">
+          Adding Multiple Items
+        </h3>
+        <p>Add multiple products at once using a multi-dimensional array:</p>
+
+        <div class="code-block">
+<pre style="margin-top: 10px">
+  $data = array(
+    array(
+      <span class="string">'id'</span> => <span class="string">'sku_123ABC'</span>,
+      <span class="string">'qty'</span> => <span class="keyword">1</span>,
+      <span class="string">'price'</span> => <span class="keyword">39.95</span>,
+      <span class="string">'name'</span> => <span class="string">'T-Shirt'</span>'
+    ),
+    array(
+      <span class="string">'id'</span> => <span class="string">'sku_567ZYX'</span>,
+      <span class="string">'qty'</span> => <span class="keyword">1</span>,
+      <span class="string">'price'</span> => <span class="keyword">9.95</span>,
+      <span class="string">'name'</span> => <span class="string">'Coffee Mug'</span>'
+    )
+  );
+
+  <span class="keyword">$this</span>->cart->insert($data);
+</pre>
+        </div>
+
+        <h3 style="margin: 25px 0 15px; color: var(--primary)">
+          Displaying the Cart
+        </h3>
+        <p>Create a view file to display cart contents:</p>
+
+<div class="code-block">
+  <pre style="margin-top: 15px">
+    <span class="tag">&lt;table</span> cellpadding=<span class="string">"6"</span>cellspacing=<span class="string">"1"</span> style=<span class="string">"width:100%"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;tr&gt;</span>
+        <span class="tag">&lt;th&gt;</span>QTY<span class="tag">&lt;/th&gt;</span>
+        <span class="tag">&lt;th&gt;</span>Item Description<span class="tag">&lt;/th&gt;</span>
+        <span class="tag">&lt;th&gt;</span>Item Price<span class="tag">&lt;/th&gt;</span>
+        <span class="tag">&lt;th&gt;</span>Sub-Total<span class="tag">&lt;/th&gt;</span>
+      <span class="tag">&lt;/tr&gt;</span>
+
+      <span class="tag">&lt;?php</span> <span class="keyword">foreach</span> ($cart->contents() <span class="keyword">as</span> $items):<span class="tag">?&gt;</span>
+      <span class="tag">&lt;tr&gt;</span>
+          <span class="tag">&lt;td&gt;</span><span class="tag">&lt;input</span> type=<spanclass="string">"number"</span> value=<span class="string">"&lt;?php</span> <span class="keyword">echo</span> $items[<span class="string">'qty'</span>];<span class="string">?&gt;"</span><span class="tag">&gt;</span><span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;td&gt;</span>
+        <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $items[<span class="string">'name'</span>]; <span class="tag">?&gt;</span>
+        <span class="tag">&lt;?php</span> <span class="keyword">if</span> ($cart->has_options($items[<span class="string">'rowid'</span>])): <span class="tag">?&gt;</span>
+        <span class="tag">&lt;?php</span> <span class="keyword">foreach</span>($cart->product_options($items[<span class="string">'rowid'</span>]) <span class="keyword">as</span> $option_name => $option_value):<span class="tag">?&gt;</span>
+          <span class="tag">&lt;?php</spa> <span class="keyword">echo</span> $option_name; <span class="tag">?&gt;</span>
+          <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $option_value; <span class="tag">?&gt;</span>
+        <span class="tag">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="tag">?&gt;</span>
+        <span class="tag">&lt;?php</span> <span class="keyword">endif</span>; <span class="tag">?&gt;</span>
+      <span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span
+        ><span class="tag">&gt;</span> ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($items[<spanclass="string">'price'</span>]); <span class="tag">?&gt;</span> <span class="tag">&lt;/td&gt;</span>
+        <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span> <span class="tag">&gt;</span> ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($items[<span class="string">'subtotal'</span>]); <span class="tag">?&gt;</span><span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;/tr&gt;</span>
+      <span class="tag">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="tag">?&gt;</span>
+
+      <span class="tag">&lt;tr&gt;</span>
+        <span class="tag">&lt;td</span> colspan=<span class="string">"3"</span><span class="tag">&gt;&lt;/td&gt;</span>
+        <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span
+      ><span class="tag">&gt;</span> <span class="tag"></span>Total: ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($cart->total()); <span class="tag">?&gt;</span><span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;/tr&gt;</span>
+    <span class="tag">&lt;/table&gt;</span>
+    </pre>
+</div>
+
+        <h3 style="margin: 25px 0 15px; color: var(--primary)">
+          Updating the Cart
+        </h3>
+        <p>Update cart items by passing the Row ID and updated properties:</p>
+
+        <div class="code-block">
+          <pre style="margin-top: 15px;">
+<span class="comment">// Single item update</span>
+$data = array(
+  <span class="string">'rowid'</span> =>
+  <span class="string">'b99ccdf16028f015540f341130b6d8ec'</span>,
+  <span class="string">'qty'</span> => <span class="keyword">3</span>
+);
+
+<span class="keyword">$this</span>->cart->update($data);
+
+<span class="comment">// Multiple items update</span>
+$data = array(
+  array(
+    <span class="string">'rowid'</span> =>
+    <span class="string">'b99ccdf16028f015540f341130b6d8ec'</span>,
+    <span class="string">'qty'</span> => <span class="keyword">3</span>
+  ), array(
+    <span class="string">'rowid'</span> =>
+    <span class="string">'xw82g9q3r495893iajdh473990rikw23'</span>,
+    <span class="string">'qty'</span> => <span class="keyword">4</span>
+  )
+);
+
+<span class="keyword">$this</span>->cart->update($data);
+          </pre>
+        </div>
+
+        <div class="notice-box info-box">
+          <i class="fas fa-info-circle"></i>
+          <div class="notice-content">
+            <h4>Row ID Note</h4>
+            <p>
+              If quantity is set to zero, the item will be removed from the
+              cart. The Row ID is generated automatically when items are added
+              to uniquely identify product variations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Initialization -->
+    <div class="container">
+      <div class="content-card" id="initialization">
+        <div class="section-header">
+          <i class="fas fa-cog"></i>
+          <h2>Initializing the Cart</h2>
+        </div>
+
+        <div class="notice-box warning-box">
+          <i class="fas fa-exclamation-circle"></i>
+          <div class="notice-content">
+            <h4>Database Requirement</h4>
+            <p>
+              The Cart class uses CodeIgniter's Session Class which requires a
+              database table. Set up the session table as indicated in the
+              Session Documentation and configure your .env file to use database
+              sessions.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="margin: 20px 0 15px; color: var(--primary)">
+          Composer Installation
+        </h3>
+        <p>Install the package via Composer:</p>
+
+        <div class="code-block">
+          <code>composer require bertugfahriozer/ci4shoppingcart</code>
+        </div>
+
+        <p>
+          After installation, you'll see an example directory that you can
+          reference or copy into your project.
+        </p>
+
+        <h3 style="margin: 25px 0 15px; color: var(--primary)">
+          Controller Setup
+        </h3>
+        <p>Initialize the Cart class in your controller constructor:</p>
+
+        <div class="code-block">
+          <pre style="margin-top: 15px;">
+<span class="keyword">use</span> ci4shoppingcart\Libraries\Cart;
+
+<span class="keyword">public</span> $cart;
+
+<span class="keyword">public function</span> __construct(){
+  <span class="keyword">$this</span>->cart = <span class="keyword">new</span> Cart();
+}
+          </pre>
+        </div>
+
+        <p>Once loaded, access the Cart object via:</p>
+
+        <div class="code-block">
+          <code><span class="keyword">$this</span>->cart</code>
+        </div>
+
+        <div class="notice-box info-box">
+          <i class="fas fa-info-circle"></i>
+          <div class="notice-content">
+            <h4>Session Auto-Load</h4>
+            <p>
+              The Cart Class automatically loads and initializes the Session
+              Class, so you don't need to load it separately unless you're using
+              sessions elsewhere in your application.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Class Reference -->
+    <div class="container">
+      <div class="content-card" id="reference">
+        <div class="section-header">
+          <i class="fas fa-book"></i>
+          <h2>Class Reference</h2>
+        </div>
+
+        <h3 style="margin: 20px 0 15px; color: var(--primary)">Properties</h3>
+
+        <table class="reference-table">
+          <tr>
+            <th>Property</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><code>$product_id_rules</code></td>
+            <td>'.a-z0-9_-'</td>
+            <td>
+              Regex rules for validating product IDs (alphanumeric, dashes,
+              underscores, periods)
+            </td>
+          </tr>
+          <tr>
+            <td><code>$product_name_rules</code></td>
+            <td>'w -.:'</td>
+            <td>
+              Regex rules for validating product names (alphanumeric, dashes,
+              underscores, colons, periods)
+            </td>
+          </tr>
+          <tr>
+            <td><code>$product_name_safe</code></td>
+            <td>TRUE</td>
+            <td>Whether to only allow "safe" product names</td>
+          </tr>
+        </table>
+
+        <h3 style="margin: 30px 0 15px; color: var(--primary)">Methods</h3>
+
+        <table class="reference-table">
+          <tr>
+            <th>Method</th>
+            <th>Parameters</th>
+            <th>Returns</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><code>insert()</code></td>
+            <td>$items (array)</td>
+            <td>bool</td>
+            <td>Adds items to cart, returns TRUE on success</td>
+          </tr>
+          <tr>
+            <td><code>update()</code></td>
+            <td>$items (array)</td>
+            <td>bool</td>
+            <td>Updates cart items by Row ID</td>
+          </tr>
+          <tr>
+            <td><code>remove()</code></td>
+            <td>$rowid (string)</td>
+            <td>bool</td>
+            <td>Removes item by Row ID</td>
+          </tr>
+          <tr>
+            <td><code>total()</code></td>
+            <td>-</td>
+            <td>float</td>
+            <td>Returns cart total amount</td>
+          </tr>
+          <tr>
+            <td><code>total_items()</code></td>
+            <td>-</td>
+            <td>int</td>
+            <td>Returns total item count in cart</td>
+          </tr>
+          <tr>
+            <td><code>contents()</code></td>
+            <td>[$newest_first = FALSE]</td>
+            <td>array</td>
+            <td>Returns all cart items, optionally sorted</td>
+          </tr>
+          <tr>
+            <td><code>get_item()</code></td>
+            <td>$row_id (string)</td>
+            <td>array|bool</td>
+            <td>Returns item data by Row ID or FALSE</td>
+          </tr>
+          <tr>
+            <td><code>has_options()</code></td>
+            <td>$row_id (string)</td>
+            <td>bool</td>
+            <td>Checks if item has options</td>
+          </tr>
+          <tr>
+            <td><code>product_options()</code></td>
+            <td>$row_id (string)</td>
+            <td>array</td>
+            <td>Returns item options by Row ID</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td>-</td>
+            <td>void</td>
+            <td>Empties the entire cart</td>
+          </tr>
+        </table>
+
+        <h3 style="margin: 25px 0 15px; color: var(--primary)">
+          Understanding Row ID
+        </h3>
+        <p>
+          The Row ID is a unique identifier generated when items are added to
+          the cart. It allows the cart to manage identical products with
+          different options (like size or color variations).
+        </p>
+
+        <p>
+          For example, if a customer adds two identical t-shirts (same product
+          ID) in different sizes, the cart generates unique Row IDs for each
+          variation. This ensures each item can be managed independently.
+        </p>
+
+        <p>
+          In most cases, you'll only need to work with Row IDs when updating or
+          removing items from the cart view page.
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>CodeIgniter 4 Shopping Cart</h3>
+            <p>
+              A flexible cart library for CodeIgniter 4 that maintains items in
+              a session
+            </p>
+          </div>
+
+          <div class="footer-column">
+            <h3>Resources</h3>
+            <ul class="footer-links">
+              <li>
+                <a href="https://codeigniter.com/user_guide/index.html"
+                  ><i class="fas fa-book"></i> CodeIgniter Docs</a
+                >
+              </li>
+              <li>
+                <a href="https://github.com/bertugfahriozer/ci4shoppingcart"
+                  ><i class="fab fa-github"></i> GitHub Repo</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://packagist.org/packages/bertugfahriozer/ci4shoppingcart"
+                  ><i class="fab fa-php"></i> Packagist</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="copyright">
+          <p>© 2023 CodeIgniter 4 Shopping Cart Class. MIT License.</p>
+          <p>Developed by Bertuğ Fahri Özer</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Navigation smooth scroll
+      document.querySelectorAll(".nav-tabs a").forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Remove active class from all tabs
+          document.querySelectorAll(".nav-tabs a").forEach((a) => {
+            a.classList.remove("active");
+          });
+
+          // Add active class to clicked tab
+          this.classList.add("active");
+
+          const targetId = this.getAttribute("href");
+          const targetElement = document.querySelector(targetId);
+
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Add animation to elements when they enter the viewport
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = 1;
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+        }
+      );
+
+      // Animate content cards
+      document.querySelectorAll(".content-card").forEach((card, index) => {
+        card.style.opacity = 0;
+        card.style.transform = "translateY(30px)";
+        card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+        card.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(card);
+      });
+
+      // Highlight code on click
+      document.querySelectorAll(".code-block").forEach((codeBlock) => {
+        codeBlock.addEventListener("click", function () {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(this.querySelector("code"));
+          selection.removeAllRanges();
+          selection.addRange(range);
+        });
+      });
+    </script>
+  </body>
+</html>
