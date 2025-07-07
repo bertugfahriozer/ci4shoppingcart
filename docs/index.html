@@ -596,23 +596,20 @@
         </p>
 
         <div class="code-block">
-          <code
-            >$data = array( <span class="string">'id'</span> =>
-            <span class="string">'sku_123ABC'</span>,
-            <span class="string">'qty'</span> => <span class="keyword">1</span>,
-            <span class="string">'price'</span> =>
-            <span class="keyword">39.95</span>,
-            <span class="string">'name'</span> =>
-            <span class="string">'T-Shirt'</span>,
-            <span class="string">'options'</span> => array(<span class="string"
-              >'Size'</span
-            >
-            => <span class="string">'L'</span>,
-            <span class="string">'Color'</span> =>
-            <span class="string">'Red'</span>) );
+          <pre style="margin-top: 15px;">
+$data = array(
+  <span class="string">'id'</span> => <span class="string">'sku_123ABC'</span>,
+  <span class="string">'qty'</span> => <span class="keyword">1</span>,
+  <span class="string">'price'</span> => <span class="keyword">39.95</span>,
+  <span class="string">'name'</span> => <span class="string">'T-Shirt'</span>,
+  <span class="string">'options'</span> => array(
+    <span class="string">'Size'</span> => <span class="string">'L'</span>,
+    <span class="string">'Color'</span> => <span class="string">'Red'</span>
+  )
+);
 
-            <span class="keyword">$this</span>->cart->insert($data);</code
-          >
+<span class="keyword">$this</span>->cart->insert($data);
+            </pre>
         </div>
 
         <div class="notice-box info-box">
@@ -634,22 +631,22 @@
 
         <div class="code-block">
 <pre style="margin-top: 10px">
-  $data = array(
-    array(
-      <span class="string">'id'</span> => <span class="string">'sku_123ABC'</span>,
-      <span class="string">'qty'</span> => <span class="keyword">1</span>,
-      <span class="string">'price'</span> => <span class="keyword">39.95</span>,
-      <span class="string">'name'</span> => <span class="string">'T-Shirt'</span>'
-    ),
-    array(
-      <span class="string">'id'</span> => <span class="string">'sku_567ZYX'</span>,
-      <span class="string">'qty'</span> => <span class="keyword">1</span>,
-      <span class="string">'price'</span> => <span class="keyword">9.95</span>,
-      <span class="string">'name'</span> => <span class="string">'Coffee Mug'</span>'
-    )
-  );
+$data = array(
+  array(
+    <span class="string">'id'</span> => <span class="string">'sku_123ABC'</span>,
+    <span class="string">'qty'</span> => <span class="keyword">1</span>,
+    <span class="string">'price'</span> => <span class="keyword">39.95</span>,
+    <span class="string">'name'</span> => <span class="string">'T-Shirt'</span>'
+  ),
+  array(
+    <span class="string">'id'</span> => <span class="string">'sku_567ZYX'</span>,
+    <span class="string">'qty'</span> => <span class="keyword">1</span>,
+    <span class="string">'price'</span> => <span class="keyword">9.95</span>,
+    <span class="string">'name'</span> => <span class="string">'Coffee Mug'</span>'
+  )
+);
 
-  <span class="keyword">$this</span>->cart->insert($data);
+<span class="keyword">$this</span>->cart->insert($data);
 </pre>
         </div>
 
@@ -660,38 +657,38 @@
 
 <div class="code-block">
   <pre style="margin-top: 15px">
-    <span class="tag">&lt;table</span> cellpadding=<span class="string">"6"</span>cellspacing=<span class="string">"1"</span> style=<span class="string">"width:100%"</span><span class="tag">&gt;</span>
-      <span class="tag">&lt;tr&gt;</span>
-        <span class="tag">&lt;th&gt;</span>QTY<span class="tag">&lt;/th&gt;</span>
-        <span class="tag">&lt;th&gt;</span>Item Description<span class="tag">&lt;/th&gt;</span>
-        <span class="tag">&lt;th&gt;</span>Item Price<span class="tag">&lt;/th&gt;</span>
-        <span class="tag">&lt;th&gt;</span>Sub-Total<span class="tag">&lt;/th&gt;</span>
-      <span class="tag">&lt;/tr&gt;</span>
+<span class="tag">&lt;table</span> cellpadding=<span class="string">"6"</span> cellspacing=<span class="string">"1"</span> style=<span class="string">"width:100%"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;th&gt;</span>QTY<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Item Description<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Item Price<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span>Sub-Total<span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
 
-      <span class="tag">&lt;?php</span> <span class="keyword">foreach</span> ($cart->contents() <span class="keyword">as</span> $items):<span class="tag">?&gt;</span>
-      <span class="tag">&lt;tr&gt;</span>
-          <span class="tag">&lt;td&gt;</span><span class="tag">&lt;input</span> type=<spanclass="string">"number"</span> value=<span class="string">"&lt;?php</span> <span class="keyword">echo</span> $items[<span class="string">'qty'</span>];<span class="string">?&gt;"</span><span class="tag">&gt;</span><span class="tag">&lt;/td&gt;</span>
-      <span class="tag">&lt;td&gt;</span>
-        <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $items[<span class="string">'name'</span>]; <span class="tag">?&gt;</span>
-        <span class="tag">&lt;?php</span> <span class="keyword">if</span> ($cart->has_options($items[<span class="string">'rowid'</span>])): <span class="tag">?&gt;</span>
-        <span class="tag">&lt;?php</span> <span class="keyword">foreach</span>($cart->product_options($items[<span class="string">'rowid'</span>]) <span class="keyword">as</span> $option_name => $option_value):<span class="tag">?&gt;</span>
-          <span class="tag">&lt;?php</spa> <span class="keyword">echo</span> $option_name; <span class="tag">?&gt;</span>
-          <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $option_value; <span class="tag">?&gt;</span>
-        <span class="tag">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="tag">?&gt;</span>
-        <span class="tag">&lt;?php</span> <span class="keyword">endif</span>; <span class="tag">?&gt;</span>
-      <span class="tag">&lt;/td&gt;</span>
-        <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span
-        ><span class="tag">&gt;</span> ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($items[<spanclass="string">'price'</span>]); <span class="tag">?&gt;</span> <span class="tag">&lt;/td&gt;</span>
-        <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span> <span class="tag">&gt;</span> ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($items[<span class="string">'subtotal'</span>]); <span class="tag">?&gt;</span><span class="tag">&lt;/td&gt;</span>
-      <span class="tag">&lt;/tr&gt;</span>
-      <span class="tag">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="tag">?&gt;</span>
+  <span class="tag">&lt;?php</span> <span class="keyword">foreach</span> ($cart->contents() <span class="keyword">as</span> $items):<span class="tag">?&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;td&gt;</span><span class="tag">&lt;input</span> type=<spanclass="string">"number"</span> value=<span class="string">"&lt;?php</span> <span class="keyword">echo</span> $items[<span class="string">'qty'</span>];<span class="string">?&gt;"</span><span class="tag">&gt;</span><span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;td&gt;</span>
+    <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $items[<span class="string">'name'</span>]; <span class="tag">?&gt;</span>
+    <span class="tag">&lt;?php</span> <span class="keyword">if</span> ($cart->has_options($items[<span class="string">'rowid'</span>])): <span class="tag">?&gt;</span>
+    <span class="tag">&lt;?php</span> <span class="keyword">foreach</span>($cart->product_options($items[<span class="string">'rowid'</span>]) <span class="keyword">as</span> $option_name => $option_value):<span class="tag">?&gt;</span>
+      <span class="tag">&lt;?php</spa> <span class="keyword">echo</span> $option_name; <span class="tag">?&gt;</span>
+      <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $option_value; <span class="tag">?&gt;</span>
+    <span class="tag">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="tag">?&gt;</span>
+    <span class="tag">&lt;?php</span> <span class="keyword">endif</span>; <span class="tag">?&gt;</span>
+  <span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span
+    ><span class="tag">&gt;</span> ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($items[<spanclass="string">'price'</span>]); <span class="tag">?&gt;</span> <span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span> <span class="tag">&gt;</span> ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($items[<span class="string">'subtotal'</span>]); <span class="tag">?&gt;</span><span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;?php</span> <span class="keyword">endforeach</span>; <span class="tag">?&gt;</span>
 
-      <span class="tag">&lt;tr&gt;</span>
-        <span class="tag">&lt;td</span> colspan=<span class="string">"3"</span><span class="tag">&gt;&lt;/td&gt;</span>
-        <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span
-      ><span class="tag">&gt;</span> <span class="tag"></span>Total: ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($cart->total()); <span class="tag">?&gt;</span><span class="tag">&lt;/td&gt;</span>
-      <span class="tag">&lt;/tr&gt;</span>
-    <span class="tag">&lt;/table&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;td</span> colspan=<span class="string">"3"</span><span class="tag">&gt;&lt;/td&gt;</span>
+    <span class="tag">&lt;td</span> style=<span class="string">"text-align:right"</span
+  ><span class="tag">&gt;</span> <span class="tag"></span>Total: ₺ <span class="tag">&lt;?php</span> <span class="keyword">echo</span> $cart->format_number($cart->total()); <span class="tag">?&gt;</span><span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+<span class="tag">&lt;/table&gt;</span>
     </pre>
 </div>
 
