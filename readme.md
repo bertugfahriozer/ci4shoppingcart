@@ -12,6 +12,9 @@ Please note that the Cart Class ONLY provides the core “cart” functionality.
 - [What is the Row ID](#what-is-a-row-id)
 - [Class Reference](#class-reference)
 
+# 🪴 Project Activity
+![Alt](https://repobeats.axiom.co/api/embed/dd64f270bd61acb4bfe7a922316c17eb7ccb9a93.svg "Repobeats analytics image")
+
 ## [Using the Cart Class](#using-the-cart-class)
 
 ### [Initializing the Shopping Cart Class](#initializing-the-shopping-cart-class)
